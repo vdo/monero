@@ -1,11 +1,11 @@
 # Multistage docker build, requires docker 17.05
 
 # builder stage
-FROM ubuntu:16.04 as builder
+FROM ubuntu:20.04 as builder
 
 RUN set -ex && \
     apt-get update && \
-    apt-get --no-install-recommends --yes install \
+    DEBIAN_FRONTEND=noninteractive apt-get --no-install-recommends --yes install \
     ca-certificates \
     cmake \
     g++ \
@@ -26,7 +26,7 @@ RUN set -ex && \
 WORKDIR /usr/local
 
 ENV CFLAGS='-fPIC'
-ENV CXXFLAGS='-fPIC -std=c++11 -O2'
+ENV CXXFLAGS='-fPIC -std=c++11'
 
 #Cmake
 ARG CMAKE_VERSION=3.14.6
@@ -179,7 +179,7 @@ RUN set -ex && \
     fi
 
 # runtime stage
-FROM ubuntu:16.04
+FROM ubuntu:20.04
 
 RUN set -ex && \
     apt-get update && \
